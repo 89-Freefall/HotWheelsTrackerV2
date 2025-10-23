@@ -62,3 +62,17 @@ The result is fully functional CRUD operations:
   ![Validation messages](Screenshots/Screenshot_HotWheelsTracker5.png)
 
 ---
+## Week 13 - Diagnostics
+
+I implemented the Diagnostics feature for the HotWheelsTracker project by adding a `/healthz` endpoint. I was able to add a simple health check that confirms the application and its dependencies are functioning correctly. This endpoint helps developers and system administrators quickly verify the app's status and troubleshoot issues without exposing sensitive information.
+
+To implement this, I created a `HealthController` with a `Get` action that returns JSON containing the overall status and checks at least one real dependency, the database connection. Using asynchronous calls, the controller attempts to query the database to ensure it is reachable. 
+If the database is accessible, the endpoint returns a `"Healthy"` status; if there is an issue, it returns a `"Degraded"` or `"Unhealthy"` status along with a short message describing the problem. This ensures enough detail is provided for troubleshooting while keeping sensitive connection details hidden.
+Testing the `/healthz` endpoint confirmed that the application correctly reports its health. The JSON output includes the status and dependency checks, making it easy to identify if the database or other critical services are unavailable. 
+This approach mirrors real-world diagnostics used in production applications, supporting monitoring tools and automated alerting.
+
+### Evidence / Screenshots
+
+- **Health Controller & /healthz endpoint output**
+![HealthController code/Health endpoint output](Screenshots/Screenshot_HotWheelsTracker6.png)
+---
