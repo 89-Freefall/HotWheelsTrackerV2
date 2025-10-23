@@ -23,7 +23,7 @@ To verify the setup, I checked **SQL Server Object Explorer** in Visual Studio a
 
 ---
 
-#### Week 11 - Separation of Concerns / Dependency Injection
+## Week 11 - Separation of Concerns / Dependency Injection
 
 I implemented the Separation of Concerns and Dependency Injection feature in the HotWheelsTracker project. The main goal was to move all non-UI logic out of the controller and into a dedicated service, making the controller thinner and easier to maintain.
 
@@ -41,4 +41,24 @@ The result is visible on the homepage, where the cars table loads correctly, con
 
 - **Program.cs DI registration and HomeController constructor using ICarService**  
   ![Program.cs and HomeController.cs](Screenshots/Screenshot_HotWheelsTracker3.png)
+---
+
+## Week 12 – CRUD (Create, Read, Update, Delete)
+
+Implemented CRUD functionality for the HotWheelsTracker project, The main goal was to allow users to create, view, edit, and delete Hot Wheels cars while ensuring data integrity and providing validation feedback.
+I updated the `CarController` with async data access methods, including `ToListAsync()`, `FindAsync()`, and `SaveChangesAsync()`. These ensure that database operations do not block the main thread and improve application responsiveness. I also used model validation attributes in the `Car` class, such as `[Required]`, `[StringLength]`, and `[Range]`, to provide automatic validation feedback on the Create and Edit forms.
+The views for `Index`, `Details`, `Create`, `Edit`, and `Delete` were scaffolded using Entity Framework Core. This allowed the forms and tables to automatically bind to the `Car` model and the `ApplicationDbContext`, streamlining the connection between the database and the UI.
+The result is fully functional CRUD operations:
+- Users can **add new cars** using the Create form, with validation messages displayed for missing or incorrect data.
+- The **Index page** lists all cars currently in the database.
+- Users can view **Details** of each car, edit existing records, and delete cars with confirmation prompts.
+- All operations interact asynchronously with the database to maintain performance and scalability.
+
+### Evidence / Screenshots
+
+- **CRUD pages**
+  ![CRUD pages](Screenshots/Screenshot_HotWheelsTracker4.png)
+- **Validation messages on Create/Edit forms**
+  ![Validation messages](Screenshots/Screenshot_HotWheelsTracker5.png)
+
 ---
