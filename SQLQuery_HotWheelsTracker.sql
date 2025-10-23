@@ -1,0 +1,9 @@
+﻿CREATE PROCEDURE GetCarsBySeries
+	@Series NVARCHAR(50)
+AS
+BEGIN
+	SELECT *
+	FROM Cars
+	WHERE Series = @Series
+	ORDER BY Name;
+END

@@ -1,0 +1,27 @@
+﻿@model List<HotWheelsTracker.Models.Car>
+
+<h1>Cars in @ViewData["Series"] Series</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Year</th>
+            <th>Color</th>
+            <th>Condition</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Name</td>
+                <td>@car.Year</td>
+                <td>@car.Color</td>
+                <td>@car.Condition</td>
+                <td>@car.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>

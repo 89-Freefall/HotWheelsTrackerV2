@@ -90,4 +90,41 @@ This feature ensures that important events in the application are recorded, impr
 
 ---
 
+## Week 15 – Stored Procedures
+I implemented the Stored Procedures feature in the HotWheelsTracker project. I execute a SQL stored procedure from the application and render its results in a view. This demonstrates how EF Core can interact with database-side logic while keeping the app clean and maintainable.
+I started by creating a stored procedure in SQL Server named `GetCarsBySeries`, which accepts a `series` parameter and returns all cars from that series:
+```sql
+CREATE PROCEDURE GetCarsBySeries
+    @series NVARCHAR(50)
+AS
+BEGIN
+    SELECT * FROM Cars
+    WHERE Series = @series
+    ORDER BY Value DESC;
+END
+```
+
+Next, I updated the ICarService interface and CarService class to include a method GetCarsBySeriesAsync, which safely calls this stored procedure using EF Core’s FromSqlInterpolated:
+```
+public async Task<List<Car>> GetCarsBySeriesAsync(string series)
+{
+    return await _context.Cars
+        .FromSqlInterpolated($"EXEC GetCarsBySeries {series}")
+        .ToListAsync();
+}
+```
+
+In HomeController, I added an action CarsBySeries that takes a series as input, calls the service method, and passes the results to the corresponding view. The view iterates over the returned cars and displays their details in a table.
+This implementation shows a stored procedure via EF Core, handling parameters safely, and rendering the results in the UI. It also provides a clear demonstration of end-to-end data flow.
+
+### Evidence / Screenshots
+
+- **Stored Procedure in SQL Server**  
+  ![Stored Procedure code](Screenshots/Screenshot_HotWheelsTracker8.png)
+- **Cars in series view with code**
+  ![CarsBySeries view and code](Screenshots/Screenshot_HotWheelsTracker9.png)
+
+---
+
+
 

@@ -6,5 +6,7 @@ namespace HotWheelsTracker.Services
     public interface ICarService
     {
         IEnumerable<Car> GetAllCarsSortedByValue();
+
+        Task<List<Car>> GetCarsBySeriesAsync(string series);
     }
 }

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using HotWheelsTracker.Models;
 using HotWheelsTracker.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace HotWheelsTracker.Controllers
 {
@@ -29,6 +30,19 @@ namespace HotWheelsTracker.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        // Make sure this method is **inside** the class!
+        public async Task<IActionResult> CarsBySeries(string series)
+        {
+            if (string.IsNullOrEmpty(series))
+            {
+                return BadRequest("Series parameter is required.");
+            }
+
+            var cars = await _carService.GetCarsBySeriesAsync(series);
+            ViewData["Series"] = series;
+            return View(cars);
         }
     }
 }
