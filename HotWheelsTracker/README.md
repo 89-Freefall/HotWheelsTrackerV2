@@ -76,3 +76,18 @@ This approach mirrors real-world diagnostics used in production applications, su
 - **Health Controller & /healthz endpoint output**
 ![HealthController code/Health endpoint output](Screenshots/Screenshot_HotWheelsTracker6.png)
 ---
+## Week 14 - Logging
+
+Implemented structured logging in the HotWheelsTracker project. I capture both success and error paths for key actions in the CarController to make the application easier to monitor and troubleshoot.
+I added logging to Create, Edit, and Delete actions. For the Create action, successful car creation logs the CarId and Name, while validation failures log a warning including the attempted Car Name. In the Edit action, successful edits remain unlogged, but validation failures now log warnings, and concurrency errors log detailed error messages including the CarId. 
+For Delete, both successful deletion and attempts to delete a non-existent car are logged, providing clear feedback on the operation outcome.
+These logs use structured fields to ensure that key information, such as CarId, Name, and the type of action, is captured consistently. This approach makes it easier to trace issues and monitor application behavior without exposing sensitive data. All logs are routed through ASP.NET Core’s built-in logging infrastructure, which can be configured to output to the console, files, or external logging services as needed.
+This feature ensures that important events in the application are recorded, improving maintainability, troubleshooting, and observability. For example, if a user reports a problem with editing a car, the logs provide detailed context on the attempted operation and whether it failed due to validation, concurrency, or a missing record.
+
+### Evidence / Screenshots
+- **Logging in CarController actions**
+  ![Logging code in CarController](Screenshots/Screenshot_HotWheelsTracker7.png)
+
+---
+
+

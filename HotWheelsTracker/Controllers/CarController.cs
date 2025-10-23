@@ -13,10 +13,12 @@ namespace HotWheelsTracker.Controllers
     public class CarController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ILogger<CarController> _logger;
 
-        public CarController(ApplicationDbContext context)
+        public CarController(ApplicationDbContext context, ILogger<CarController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Car
@@ -60,9 +62,14 @@ namespace HotWheelsTracker.Controllers
             {
                 _context.Add(car);
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Car created successfully. CarId: {CarId}, Name: {CarName}", car.Id, car.Name);
                 return RedirectToAction(nameof(Index));
             }
-            return View(car);
+            else
+            {
+                _logger.LogWarning("Car creation failed due to validation errors. Name: {CarName}", car.Name);
+            }
+                return View(car);
         }
 
         // GET: Car/Edit/5
@@ -104,16 +111,22 @@ namespace HotWheelsTracker.Controllers
                 {
                     if (!CarExists(car.Id))
                     {
+                        _logger.LogError("Edit failed. Car with Id {CarId} does not exist.", car.Id);
                         return NotFound();
                     }
                     else
                     {
+                        _logger.LogError("Concurrency error occurred while editing Car with Id {CarId}.", car.Id);
                         throw;
                     }
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(car);
+            else
+            {
+                _logger.LogWarning("Car edit failed due to validation errors. CarId: {CarId}, Name: {CarName}", car.Id, car.Name);
+            }
+                return View(car);
         }
 
         // GET: Car/Delete/5
@@ -143,9 +156,15 @@ namespace HotWheelsTracker.Controllers
             if (car != null)
             {
                 _context.Cars.Remove(car);
+                await _context.SaveChangesAsync();
+                _logger.LogInformation("Car deleted successfully. CarId: {CarId}, Name: {CarName}", car.Id, car.Name);
+            }
+            else
+            {
+                _logger.LogWarning("Delete failed. Car with Id {CarId} does not exist.", id);
             }
 
-            await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
