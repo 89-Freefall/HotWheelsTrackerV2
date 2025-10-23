@@ -1,21 +1,23 @@
 using System.Diagnostics;
 using HotWheelsTracker.Models;
+using HotWheelsTracker.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotWheelsTracker.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICarService _carService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICarService carService)
         {
-            _logger = logger;
+            _carService = carService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var cars = _carService.GetAllCarsSortedByValue();
+            return View(cars);
         }
 
         public IActionResult Privacy()

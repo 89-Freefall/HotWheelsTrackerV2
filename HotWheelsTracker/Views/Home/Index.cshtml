@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<HotWheelsTracker.Models.Car>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,3 +8,33 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<hr />
+
+<h2>Your Hot Wheels Collection</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Series</th>
+            <th>Year</th>
+            <th>Color</th>
+            <th>Condition</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Name</td>
+                <td>@car.Series</td>
+                <td>@car.Year</td>
+                <td>@car.Color</td>
+                <td>@car.Condition</td>
+                <td>@car.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>
