@@ -20,6 +20,10 @@ namespace HotWheelsTracker.Controllers
             var cars = _carService.GetAllCarsSortedByValue();
             return View(cars);
         }
+        public IActionResult Health()
+        {
+            return Ok("Healthy");
+        }
 
         public IActionResult Privacy()
         {
